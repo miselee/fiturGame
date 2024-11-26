@@ -2,10 +2,10 @@
 #include <windows.h>
 
 int main() {
-initscr();
-noecho();
-cbreak();
-keypad(stdscr,TRUE);
+    initscr();
+    noecho();
+    cbreak();
+    keypad(stdscr,TRUE);
 
 start_color();
 init_pair(1, COLOR_RED, COLOR_BLACK);
@@ -30,14 +30,19 @@ for (int i = 0; i < 6; i++){
         attron(COLOR_PAIR(3));
     } else {
         attron(COLOR_PAIR(4));
-}
-mvprintw(13, 44, "Keep trying, you'll get better!");
-attroff(COLOR_PAIR(3));
-attroff(COLOR_PAIR(4));
-refresh ();
-Sleep(300);
+    }
+    mvprintw(13, 44, "Keep trying, you'll get better!");
+    attroff(COLOR_PAIR(3));
+    attroff(COLOR_PAIR(4));
+    refresh ();
+    Sleep(300);
 
 }
+
+mvprintw (10, 55, "/\\_/\\  ";
+mvprintw (11, 55, "( T.T ) ";
+mvprintw (12, 55, " > ^ <  ";
+
 
 attron(COLOR_PAIR(2));
 mvprintw(15, 50, "RESTART (Press R)");
