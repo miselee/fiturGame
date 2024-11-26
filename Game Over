@@ -39,9 +39,9 @@ for (int i = 0; i < 6; i++){
 
 }
 
-mvprintw (10, 55, "/\\_/\\  ";
-mvprintw (11, 55, "( T.T ) ";
-mvprintw (12, 55, " > ^ <  ";
+mvprintw (10, 55, "/\\_/\\  ");
+mvprintw (11, 55, "( T.T ) ");
+mvprintw (12, 55, " > ^ <  ");
 
 
 attron(COLOR_PAIR(2));
