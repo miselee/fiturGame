@@ -1,0 +1,158 @@
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <ncurses/curses.h>
+using namespace std;
+
+void registration();
+bool login();
+
+int main() {
+    initscr();
+    clear();
+    noecho();
+    cbreak();
+
+    int lebar = 30, tinggi = 10;
+    int awalx = (COLS - lebar) / 2, awaly = (LINES - tinggi) / 2;
+
+    WINDOW *menu_win = newwin(tinggi, lebar, awaly, awalx);
+    box(menu_win, 0, 0);
+    keypad(menu_win, TRUE);
+      const char *opsi[] = {
+        "1. Sign in",
+        "2. Login",
+        "Keluar"
+    };
+    int jumlahOpsi = sizeof(opsi) / sizeof(char *);
+    int pilihanTerpilih = 0;
+    int pilihan = -1;
+
+    while (1) {
+        for (int i = 0; i < jumlahOpsi; i++) {
+            if (i == pilihanTerpilih)
+                wattron(menu_win, A_REVERSE);
+            mvwprintw(menu_win, i + 1, 1, opsi[i]);
+            wattroff(menu_win, A_REVERSE);
+        }
+        wrefresh(menu_win);
+
+        int tombol = wgetch(menu_win);
+        switch (tombol) {
+            case KEY_UP:
+                pilihanTerpilih = (pilihanTerpilih == 0) ? jumlahOpsi - 1 : pilihanTerpilih - 1;
+                break;
+            case KEY_DOWN:
+                pilihanTerpilih = (pilihanTerpilih == jumlahOpsi - 1) ? 0 : pilihanTerpilih + 1;
+                break;
+            case 10: 
+                pilihan = pilihanTerpilih;
+                break;
+        }
+
+        if (pilihan != -1) {
+            clear();
+            refresh();
+            endwin();
+
+            if (pilihan == 0) {
+                registration();
+            } else if (pilihan == 1) {
+                login();
+            } else if (pilihan == 2) {
+                break;
+            }
+
+            pilihan = -1;
+
+            initscr();
+            clear();
+            noecho();
+            cbreak();
+            menu_win = newwin(tinggi, lebar, awaly, awalx);
+            box(menu_win, 0, 0);
+            keypad(menu_win, TRUE);
+        }
+    }
+
+    endwin();
+    return 0;
+}
+
+void registration() {
+    string username, password;
+
+    int lebar = 40, tinggi = 10;
+    int awalx = (COLS - lebar) / 2, awaly = (LINES - tinggi) / 2;
+
+    WINDOW *input_win = newwin(tinggi, lebar, awaly, awalx);
+    box(input_win, 0, 0);
+    mvwprintw(input_win, 1, 2, "Sign In");
+    mvwprintw(input_win, 3, 2, "Masukan nama pengguna: ");
+    mvwprintw(input_win, 5, 2, "Masukan password: ");
+    wrefresh(input_win);
+
+    char user_input[30], pass_input[30];
+    echo();
+    mvwgetstr(input_win, 3, 25, user_input);
+    mvwgetstr(input_win, 5, 20, pass_input);
+    noecho();
+
+    username = user_input;
+    password = pass_input;
+
+    ofstream userFile(username + ".txt");
+    userFile << password;
+    userFile.close();
+
+    mvwprintw(input_win, 7, 2, "Akun berhasil dibuat!");
+    wrefresh(input_win);
+    wgetch(input_win);
+    delwin(input_win);
+    clear();
+    refresh();
+}
+
+bool login() {
+    string username, password, stored_password;
+
+    int lebar = 40, tinggi = 10;
+    int awalx = (COLS - lebar) / 2, awaly = (LINES - tinggi) / 2;
+
+    WINDOW *input_win = newwin(tinggi, lebar, awaly, awalx);
+    box(input_win, 0, 0);
+    mvwprintw(input_win, 1, 2, "Login");
+    mvwprintw(input_win, 3, 2, "Masukan nama pengguna: ");
+    mvwprintw(input_win, 5, 2, "Masukan password: ");
+    wrefresh(input_win);
+
+    char user_input[30], pass_input[30];
+    echo();
+    mvwgetstr(input_win, 3, 25, user_input);  
+    mvwgetstr(input_win, 5, 20, pass_input); 
+    noecho();
+
+    username = user_input;
+    password = pass_input;
+
+    ifstream userFile(username + ".txt");
+    if (userFile.is_open()) {
+        getline(userFile, stored_password);
+        userFile.close();
+
+        if (stored_password == password) {
+            mvwprintw(input_win, 7, 2, "Login berhasil!");
+        } else {
+            mvwprintw(input_win, 7, 2, "Password salah!");
+        }
+    } else {
+        mvwprintw(input_win, 7, 2, "Akun tidak ditemukan!");
+    }
+    wrefresh(input_win);
+    wgetch(input_win);
+    delwin(input_win);
+    clear();
+    refresh();
+
+    return stored_password == password;
+}
