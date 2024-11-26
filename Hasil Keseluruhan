@@ -1,0 +1,347 @@
+#include <ncurses/ncurses.h>
+#include <windows.h>
+#include <iostream>
+#include <fstream>
+#include <string>
+
+using namespace std;
+
+void registration();
+bool login();
+
+int main() {
+    initscr();
+    clear();
+    noecho();
+    cbreak();
+    keypad(stdscr,TRUE);
+    start_color();
+    
+    int lebar = 30, tinggi = 10;
+    int awalx = (COLS - lebar) / 2, awaly = (LINES - tinggi) / 2;
+    
+    
+    
+    	init_pair(1,COLOR_GREEN,COLOR_BLACK);
+			attron(COLOR_PAIR(1));
+			
+			 WINDOW *menu_win = newwin(tinggi, lebar, awaly, awalx);
+    wattron(menu_win, COLOR_PAIR(1));
+    box(menu_win, 0, 0);
+    keypad(menu_win, TRUE);
+      const char *opsi[] = {
+        "1. Sign in",
+        "2. Login",
+        "Keluar"
+    };
+    int jumlahOpsi = sizeof(opsi) / sizeof(char *);
+    int pilihanTerpilih = 0;
+    int pilihan = -1;
+
+    while (1) {
+        for (int i = 0; i < jumlahOpsi; i++) {
+            if (i == pilihanTerpilih)
+                wattron(menu_win, A_REVERSE);
+                wattron(menu_win, COLOR_PAIR(1));
+                mvwprintw(menu_win, i + 1, 1, opsi[i]);
+                wattroff(menu_win, A_REVERSE);
+        }
+        wrefresh(menu_win);
+
+        int tombol = wgetch(menu_win);
+        switch (tombol) {
+            case KEY_UP:
+                pilihanTerpilih = (pilihanTerpilih == 0) ? jumlahOpsi - 1 : pilihanTerpilih - 1;
+                break;
+            case KEY_DOWN:
+                pilihanTerpilih = (pilihanTerpilih == jumlahOpsi - 1) ? 0 : pilihanTerpilih + 1;
+                break;
+            case 10: 
+                pilihan = pilihanTerpilih;
+                break;
+        }
+
+        if (pilihan != -1) {
+            clear();
+            refresh();
+            endwin();
+
+            if (pilihan == 0) {
+                registration();
+            } else if (pilihan == 1) {
+                login();
+            } else if (pilihan == 2) {
+                break;
+            }
+
+            pilihan = -1;
+
+            initscr();
+            clear();
+            noecho();
+            cbreak();
+            menu_win = newwin(tinggi, lebar, awaly, awalx);
+            wattron(menu_win, COLOR_PAIR(1));
+            box(menu_win, 0, 0);
+            keypad(menu_win, TRUE);
+        }
+    }
+
+			
+			mvprintw(15, 55, "Loading......");
+			mvprintw (16, 55, "    ");
+			refresh();
+						
+		for (int f=0; f<1; f++){
+			attron(COLOR_PAIR(1));
+			
+			mvprintw(16, 55 + f, "0 persen");
+			refresh();
+			Sleep(900);
+		
+			
+			mvprintw(16, 55 + f, "10 persen");
+			refresh();
+			Sleep(800);
+		
+			
+			mvprintw(16, 55 + f, "25 persen");
+			refresh();
+			Sleep(700);
+		
+			
+			mvprintw(16, 55 + f, "50 persen");
+			refresh();
+			Sleep(600);
+		
+			
+			mvprintw(16, 55 + f, "60 persen");
+			refresh();
+			Sleep(500);
+		
+			
+			mvprintw(16, 55 + f, "70 persen");
+			refresh();
+			Sleep(400);
+		
+			
+			mvprintw(16, 55 + f, "78 persen");
+			refresh();
+			Sleep(300);
+		
+			mvprintw(16, 55 + f, "85 persen");
+			refresh();
+			Sleep(200);
+			
+			mvprintw(16, 55 + f, "99 persen");
+			refresh();
+			Sleep(500);
+			
+			mvprintw(16, 55 + f, "99 persen");
+			refresh();
+			Sleep(600);
+		
+			mvprintw(16, 55 + f, "100 persen");
+			refresh();
+			Sleep(300);
+		
+			clear();
+			}
+			
+
+		attron(COLOR_PAIR(1));
+			
+mvprintw (12, 55, "tampilan Utama");
+mvprintw (13, 55, "1. new game");
+mvprintw (14, 55, "2. continued");
+mvprintw (15, 55, "3. exit");
+mvprintw (16, 55, "4. Pilih opsi :");
+refresh();
+	
+	move(16, 70);
+	echo();
+int newgame = getch();
+	
+switch (newgame){
+		case '1':
+	clear();
+		mvprintw (15, 55, "game dimulai....");
+		refresh();
+break;
+		case '2':
+	clear();
+		mvprintw (15, 55, "game dilanjutkan...");
+		refresh();
+break;
+		case '3':
+	clear();
+		attron(COLOR_PAIR(1));
+		mvprintw (15, 50, "anda keluar dari game....");
+		refresh();
+break;
+default:
+	clear();	
+		attron(COLOR_PAIR(1));
+		mvprintw (15, 50, "silahkan pilih opsi !!");
+		refresh();
+break;
+	}
+	
+	
+getch();
+endwin;
+
+
+start_color();
+init_pair(1, COLOR_RED, COLOR_BLACK);
+init_pair(2, COLOR_GREEN, COLOR_BLACK);
+init_pair(3, COLOR_CYAN, COLOR_BLACK);
+init_pair(4, COLOR_YELLOW, COLOR_BLACK);
+
+for (int i = 0; i < 3; i++){
+    attron(COLOR_PAIR(1));
+    mvprintw(13, 53, "GAME OVER!");
+    attroff(COLOR_PAIR(1));
+    refresh ();
+    Sleep(500);
+
+    mvprintw(13, 53, "            ");
+    refresh();
+    Sleep(500);
+}
+
+for (int i = 0; i < 6; i++){
+    if (i % 2 == 0){
+        attron(COLOR_PAIR(3));
+    } else {
+        attron(COLOR_PAIR(4));
+    }
+    mvprintw(13, 44, "Keep trying, you'll get better!");
+    attroff(COLOR_PAIR(3));
+    attroff(COLOR_PAIR(4));
+    refresh ();
+    Sleep(300);
+
+}
+
+mvprintw (10, 55, " /\\_/\\ ");
+mvprintw (11, 55, "( T.T ) ");
+mvprintw (12, 55, " > ^ <  ");
+
+
+attron(COLOR_PAIR(2));
+mvprintw(15, 50, "RESTART (Press R)");
+mvprintw(16, 52, "QUIT (Press Q)");
+attroff(COLOR_PAIR(2));
+
+refresh ();
+
+while (true){
+    int ch = getch();
+    if (ch == 'r' || ch == 'R'){
+        clear();
+        mvprintw(13, 54, "Restarting game");
+        for (int i = 0; i < 6; i++){
+            for (int j = 0; j < i; j++){
+                mvprintw(13, 54 + 16 + j, ".");
+            }
+            refresh ();
+            Sleep(300);
+            mvprintw(13, 54, "");
+        }
+        break;
+   } else if (ch == 'q' || ch == 'Q'){
+    break;
+   }
+}
+   
+    endwin();
+    return 0;
+}
+
+void registration() {
+    string username, password;
+
+    int lebar = 40, tinggi = 10;
+    int awalx = (COLS - lebar) / 2, awaly = (LINES - tinggi) / 2;
+
+    WINDOW *input_win = newwin(tinggi, lebar, awaly, awalx);
+    wattron(input_win, COLOR_PAIR(1));
+    box(input_win, 0, 0);
+    wattron(input_win, COLOR_PAIR(1));
+    mvwprintw(input_win, 1, 2, "Sign In");
+    mvwprintw(input_win, 3, 2, "Masukan nama pengguna: ");
+    mvwprintw(input_win, 5, 2, "Masukan password: ");
+    wrefresh(input_win);
+
+    char user_input[30], pass_input[30];
+    echo();
+    mvwgetstr(input_win, 3, 25, user_input);
+    mvwgetstr(input_win, 5, 20, pass_input);
+    noecho();
+
+    username = user_input;
+    password = pass_input;
+
+    ofstream userFile(username + ".txt");
+    userFile << password;
+    userFile.close();
+
+    wattron(input_win, COLOR_PAIR(1));
+    mvwprintw(input_win, 7, 2, "Akun berhasil dibuat!");
+    wrefresh(input_win);
+    wgetch(input_win);
+    delwin(input_win);
+    clear();
+    refresh();
+}
+
+bool login() {
+    string username, password, stored_password;
+
+    int lebar = 40, tinggi = 10;
+    int awalx = (COLS - lebar) / 2, awaly = (LINES - tinggi) / 2;
+
+    WINDOW *input_win = newwin(tinggi, lebar, awaly, awalx);
+    wattron(input_win, COLOR_PAIR(1));
+    box(input_win, 0, 0);
+    wattron(input_win, COLOR_PAIR(1));
+    mvwprintw(input_win, 1, 2, "Login");
+    mvwprintw(input_win, 3, 2, "Masukan nama pengguna: ");
+    mvwprintw(input_win, 5, 2, "Masukan password: ");
+    wrefresh(input_win);
+
+    char user_input[30], pass_input[30];
+    echo();
+    mvwgetstr(input_win, 3, 25, user_input);  
+    mvwgetstr(input_win, 5, 20, pass_input); 
+    noecho();
+
+    username = user_input;
+    password = pass_input;
+
+    ifstream userFile(username + ".txt");
+    if (userFile.is_open()) {
+        getline(userFile, stored_password);
+        userFile.close();
+
+        if (stored_password == password) {
+            wattron(input_win, COLOR_PAIR(1));
+            mvwprintw(input_win, 7, 2, "Login berhasil!");
+        } else {
+            wattron(input_win, COLOR_PAIR(1));
+            mvwprintw(input_win, 7, 2, "Password salah!");
+        }
+    } else {
+        wattron(input_win, COLOR_PAIR(1));
+        mvwprintw(input_win, 7, 2, "Akun tidak ditemukan!");
+    }
+    wrefresh(input_win);
+    wgetch(input_win);
+    delwin(input_win);
+    clear();
+    refresh();
+
+    return stored_password == password;
+}
+		
