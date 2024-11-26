@@ -12,11 +12,14 @@ int main() {
     clear();
     noecho();
     cbreak();
+    start_color();
+    init_pair(1, COLOR_GREEN, COLOR_BLACK);
 
     int lebar = 30, tinggi = 10;
     int awalx = (COLS - lebar) / 2, awaly = (LINES - tinggi) / 2;
 
     WINDOW *menu_win = newwin(tinggi, lebar, awaly, awalx);
+    wattron(menu_win, COLOR_PAIR(1));
     box(menu_win, 0, 0);
     keypad(menu_win, TRUE);
       const char *opsi[] = {
@@ -32,8 +35,9 @@ int main() {
         for (int i = 0; i < jumlahOpsi; i++) {
             if (i == pilihanTerpilih)
                 wattron(menu_win, A_REVERSE);
-            mvwprintw(menu_win, i + 1, 1, opsi[i]);
-            wattroff(menu_win, A_REVERSE);
+                wattron(menu_win, COLOR_PAIR(1));
+                mvwprintw(menu_win, i + 1, 1, opsi[i]);
+                wattroff(menu_win, A_REVERSE);
         }
         wrefresh(menu_win);
 
@@ -70,6 +74,7 @@ int main() {
             noecho();
             cbreak();
             menu_win = newwin(tinggi, lebar, awaly, awalx);
+            wattron(menu_win, COLOR_PAIR(1));
             box(menu_win, 0, 0);
             keypad(menu_win, TRUE);
         }
@@ -86,7 +91,9 @@ void registration() {
     int awalx = (COLS - lebar) / 2, awaly = (LINES - tinggi) / 2;
 
     WINDOW *input_win = newwin(tinggi, lebar, awaly, awalx);
+    wattron(input_win, COLOR_PAIR(1));
     box(input_win, 0, 0);
+    wattron(input_win, COLOR_PAIR(1));
     mvwprintw(input_win, 1, 2, "Sign In");
     mvwprintw(input_win, 3, 2, "Masukan nama pengguna: ");
     mvwprintw(input_win, 5, 2, "Masukan password: ");
@@ -105,6 +112,7 @@ void registration() {
     userFile << password;
     userFile.close();
 
+    wattron(input_win, COLOR_PAIR(1));
     mvwprintw(input_win, 7, 2, "Akun berhasil dibuat!");
     wrefresh(input_win);
     wgetch(input_win);
@@ -120,7 +128,9 @@ bool login() {
     int awalx = (COLS - lebar) / 2, awaly = (LINES - tinggi) / 2;
 
     WINDOW *input_win = newwin(tinggi, lebar, awaly, awalx);
+    wattron(input_win, COLOR_PAIR(1));
     box(input_win, 0, 0);
+    wattron(input_win, COLOR_PAIR(1));
     mvwprintw(input_win, 1, 2, "Login");
     mvwprintw(input_win, 3, 2, "Masukan nama pengguna: ");
     mvwprintw(input_win, 5, 2, "Masukan password: ");
@@ -141,11 +151,14 @@ bool login() {
         userFile.close();
 
         if (stored_password == password) {
+            wattron(input_win, COLOR_PAIR(1));
             mvwprintw(input_win, 7, 2, "Login berhasil!");
         } else {
+            wattron(input_win, COLOR_PAIR(1));
             mvwprintw(input_win, 7, 2, "Password salah!");
         }
     } else {
+        wattron(input_win, COLOR_PAIR(1));
         mvwprintw(input_win, 7, 2, "Akun tidak ditemukan!");
     }
     wrefresh(input_win);
