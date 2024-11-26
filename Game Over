@@ -12,3 +12,10 @@ init_pair(1, COLOR_RED, COLOR_BLACK);
 init_pair(2, COLOR_GREEN, COLOR_BLACK);
 init_pair(3, COLOR_CYAN, COLOR_BLACK);
 init_pair(4, COLOR_YELLOW, COLOR_BLACK);
+
+for (int i = 0; i < 3; i++){
+    attron(COLOR_PAIR(1));
+    mvprintw(13, 53, "GAME OVER!");
+    attroff(COLOR_PAIR(1));
+    refresh ();
+    Sleep(500);
