@@ -87,12 +87,12 @@ int newgame = getch();
 switch (newgame){
 		case '1':
 	clear();
-		mvprintw (15, 55, "new game");
+		mvprintw (15, 55, "game dimulai....");
 		refresh();
 break;
 		case '2':
 	clear();
-		mvprintw (15, 55, "continued");
+		mvprintw (15, 55, "game dilanjutkan...");
 		refresh();
 break;
 		case '3':
