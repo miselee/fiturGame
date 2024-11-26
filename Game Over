@@ -32,3 +32,41 @@ for (int i = 0; i < 6; i++){
         attron(COLOR_PAIR(4));
 }
 mvprintw(13, 44, "Keep trying, you'll get better!");
+attroff(COLOR_PAIR(3));
+attroff(COLOR_PAIR(4));
+refresh ();
+Sleep(300);
+
+}
+
+attron(COLOR_PAIR(2));
+mvprintw(15, 50, "RESTART (Press R)");
+mvprintw(16, 52, "QUIT (Press Q)");
+attroff(COLOR_PAIR(2));
+
+refresh ();
+
+while (true){
+    int ch = getch();
+    if (ch == 'r' || ch == 'R'){
+        clear();
+        mvprintw(13, 54, "Restarting game");
+        for (int i = 0; i < 6; i++){
+            for (int j = 0; j < i; j++){
+                mvprintw(13, 54 + 16 + j, ".");
+            }
+            refresh ();
+            Sleep(300);
+            mvprintw(13, 54, "");
+        }
+        break;
+   } else if (ch == 'q' || ch == 'Q'){
+    break;
+   }
+}
+
+endwin();
+return 0;
+}
+
+    
